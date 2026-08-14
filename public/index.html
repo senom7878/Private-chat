@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d1b"><title>Private Chat</title><link rel="stylesheet" href="/style.css">
+</head><body><main class="wrap">
+<section id="home" class="card">
+  <div class="logo">● PRIVATE CHAT</div>
+  <h1>One room.<br><span>Two people.</span></h1>
+  <p>Temporary chat with disappearing messages, photos and videos.</p>
+  <button id="create" class="primary">Create private chat</button>
+  <div class="or">OR</div>
+  <input id="code" placeholder="Paste chat link or room code">
+  <button id="join" class="secondary">Open chat</button>
+  <small>You'll need the password given by the chat creator.</small>
+</section>
+
+<section id="chat" class="chat hidden">
+<header><div><b>● PRIVATE CHAT</b><div id="state">Waiting…</div></div><button id="end" class="danger">END CHAT</button></header>
+<div id="invite" class="invite hidden"><span id="inviteText"></span><button id="copy">Copy link</button></div>
+<div id="msgs" class="msgs"></div><div id="typing"></div>
+<form id="form"><input id="text" placeholder="Message…" autocomplete="off" disabled>
+<label class="attach">＋<input id="file" type="file" accept="image/*,video/*" hidden disabled></label>
+<button id="send" disabled>➤</button></form>
+</section>
+
+<div id="modal" class="modal hidden"><div class="modalbox">
+<h2 id="modalTitle">Chat password</h2><p id="modalDesc">Enter the password.</p>
+<input id="password" type="password" inputmode="numeric" placeholder="Example: 2300" maxlength="32">
+<button id="modalOk" class="primary">Continue</button></div></div>
+<div id="toast"></div>
+</main><script src="/socket.io/socket.io.js"></script><script src="/app.js"></script></body></html>
