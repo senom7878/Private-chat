@@ -7,6 +7,11 @@ let key = null;
 let connected = false;
 let typingTimer = null;
 
+
+/* =========================
+   TOAST
+========================= */
+
 function toast(message) {
   $("toast").textContent = message;
   $("toast").style.display = "block";
@@ -17,6 +22,11 @@ function toast(message) {
     $("toast").style.display = "none";
   }, 2400);
 }
+
+
+/* =========================
+   BASE64
+========================= */
 
 function b64(bytes) {
   let binary = "";
@@ -46,6 +56,11 @@ function ub64(value) {
   );
 }
 
+
+/* =========================
+   PASSWORD KEY
+========================= */
+
 async function derive(password, room) {
   const base = await crypto.subtle.importKey(
     "raw",
@@ -74,7 +89,16 @@ async function derive(password, room) {
   );
 }
 
+
+/* =========================
+   ENCRYPT OBJECT
+========================= */
+
 async function encryptObject(object) {
+  if (!key) {
+    throw new Error("Encryption key missing");
+  }
+
   const iv = crypto.getRandomValues(
     new Uint8Array(12)
   );
@@ -101,8 +125,17 @@ async function encryptObject(object) {
   };
 }
 
+
+/* =========================
+   DECRYPT OBJECT
+========================= */
+
 async function decryptObject(packet) {
   try {
+    if (!key || !packet) {
+      return null;
+    }
+
     const decrypted =
       await crypto.subtle.decrypt(
         {
@@ -116,10 +149,16 @@ async function decryptObject(packet) {
     return JSON.parse(
       new TextDecoder().decode(decrypted)
     );
+
   } catch (error) {
     return null;
   }
 }
+
+
+/* =========================
+   OPEN CHAT
+========================= */
 
 function openChat(id, invite) {
   roomId = id;
@@ -140,6 +179,11 @@ function openChat(id, invite) {
   setConnection(false);
 }
 
+
+/* =========================
+   CONNECTION STATE
+========================= */
+
 function setConnection(value) {
   connected = value;
 
@@ -152,7 +196,16 @@ function setConnection(value) {
   $("send").disabled = !value;
 }
 
-function askPassword(title, description, callback) {
+
+/* =========================
+   PASSWORD MODAL
+========================= */
+
+function askPassword(
+  title,
+  description,
+  callback
+) {
   $("modalTitle").textContent = title;
   $("modalDesc").textContent = description;
   $("password").value = "";
@@ -209,21 +262,30 @@ $("create").onclick = () => {
         "Give this password to the other person. Example: 2300",
         async (password) => {
 
-          key =
-            await derive(
-              password,
-              roomId
+          try {
+
+            key =
+              await derive(
+                password,
+                roomId
+              );
+
+            setConnection(false);
+
+            $("invite")
+              .classList
+              .remove("hidden");
+
+            toast(
+              "Send the link + password"
             );
 
-          setConnection(false);
+          } catch (error) {
 
-          $("invite")
-            .classList
-            .remove("hidden");
-
-          toast(
-            "Send the link + password"
-          );
+            toast(
+              "Could not create encryption key"
+            );
+          }
         }
       );
     }
@@ -243,12 +305,15 @@ $("join").onclick = () => {
   let id = value;
 
   try {
+
     if (value.includes("?room=")) {
+
       id =
         new URL(value)
           .searchParams
           .get("room");
     }
+
   } catch (error) {}
 
   if (!id) {
@@ -275,29 +340,39 @@ $("join").onclick = () => {
             return;
           }
 
-          roomId = id;
+          try {
 
-          key =
-            await derive(
-              password,
-              roomId
+            roomId = id;
+
+            key =
+              await derive(
+                password,
+                roomId
+              );
+
+            openChat(
+              roomId,
+              null
             );
 
-          openChat(
-            roomId,
-            null
-          );
+            /*
+             * IMPORTANT:
+             * Joining user is immediately
+             * allowed to send messages.
+             */
 
-          /*
-           * IMPORTANT:
-           * The joining user is also
-           * connected immediately.
-           */
-          setConnection(true);
+            setConnection(true);
 
-          toast(
-            "Connected • encrypted"
-          );
+            toast(
+              "Connected • encrypted"
+            );
+
+          } catch (error) {
+
+            toast(
+              "Could not create encryption key"
+            );
+          }
         }
       );
     }
@@ -306,7 +381,7 @@ $("join").onclick = () => {
 
 
 /* =========================
-   COPY LINK
+   COPY INVITE
 ========================= */
 
 $("copy").onclick = async () => {
@@ -339,18 +414,27 @@ $("form").onsubmit = async (event) => {
   const text =
     $("text").value.trim();
 
-  if (!text) return;
+  if (!text) {
+    return;
+  }
 
-  if (!connected) {
+  if (!connected || !key) {
+
     toast(
       "Waiting for connection"
     );
+
     return;
   }
 
   try {
 
-    const payload =
+    /*
+     * Text is encrypted before
+     * being sent to the server.
+     */
+
+    const encrypted =
       await encryptObject({
         type: "text",
         text: text
@@ -360,14 +444,13 @@ $("form").onsubmit = async (event) => {
       "message",
       {
         roomId: roomId,
-        payload: payload
+        payload: encrypted
       },
       (result) => {
 
         if (result && !result.ok) {
           toast("Message failed");
         }
-
       }
     );
 
@@ -379,6 +462,8 @@ $("form").onsubmit = async (event) => {
     $("text").value = "";
 
   } catch (error) {
+
+    console.error(error);
 
     toast(
       "Could not send message"
@@ -393,7 +478,9 @@ $("form").onsubmit = async (event) => {
 
 $("text").oninput = () => {
 
-  if (!connected) return;
+  if (!connected) {
+    return;
+  }
 
   socket.emit(
     "typing",
@@ -431,9 +518,12 @@ $("file").onchange = async () => {
   const file =
     $("file").files[0];
 
-  if (!file) return;
+  if (!file) {
+    return;
+  }
 
-  if (!connected) {
+  if (!connected || !key) {
+
     toast(
       "Waiting for connection"
     );
@@ -443,19 +533,25 @@ $("file").onchange = async () => {
     return;
   }
 
+
+  /* 50 MB LIMIT */
+
   if (
     file.size >
-    8 * 1024 * 1024
+    50 * 1024 * 1024
   ) {
 
     toast(
-      "Maximum file size is 8 MB"
+      "Maximum file size is 50 MB"
     );
 
     $("file").value = "";
 
     return;
   }
+
+
+  /* ONLY IMAGE / VIDEO */
 
   if (
     !file.type.startsWith("image/") &&
@@ -471,64 +567,119 @@ $("file").onchange = async () => {
     return;
   }
 
+
   toast(
     "Encrypting & sending…"
   );
 
+
   try {
+
+    /*
+     * Read file
+     */
 
     const bytes =
       new Uint8Array(
         await file.arrayBuffer()
       );
 
-    const iv =
+
+    /*
+     * Encrypt actual file
+     */
+
+    const fileIv =
       crypto.getRandomValues(
         new Uint8Array(12)
       );
 
-    const encrypted =
+    const encryptedFile =
       await crypto.subtle.encrypt(
         {
           name: "AES-GCM",
-          iv: iv
+          iv: fileIv
         },
         key,
         bytes
       );
 
-    const payload = {
+
+    /*
+     * Create file object
+     */
+
+    const fileObject = {
+
       type: "file",
+
       name: file.name,
+
       mime: file.type,
+
       size: file.size,
-      iv: b64(iv),
+
+      iv: b64(fileIv),
+
       data: b64(
-        new Uint8Array(encrypted)
+        new Uint8Array(
+          encryptedFile
+        )
       )
     };
+
+
+    /*
+     * IMPORTANT:
+     *
+     * The complete file object is
+     * encrypted again as a message.
+     *
+     * This fixes the previous
+     * "Wrong password" problem.
+     */
+
+    const encryptedMessage =
+      await encryptObject(
+        fileObject
+      );
+
+
+    /*
+     * Send encrypted message
+     */
 
     socket.emit(
       "message",
       {
         roomId: roomId,
-        payload: payload
+        payload: encryptedMessage
       },
       (result) => {
 
-        if (result && result.ok) {
+        if (
+          result &&
+          result.ok
+        ) {
+
+          /*
+           * Show file immediately
+           * on sender's screen.
+           */
 
           addFile(
-            payload,
+            fileObject,
             true
           );
 
-          toast("Sent");
+          toast(
+            "Sent successfully"
+          );
 
         } else {
 
           toast(
-            "Send failed"
+            "File send failed"
           );
         }
       }
@@ -536,10 +687,13 @@ $("file").onchange = async () => {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "FILE SEND ERROR:",
+      error
+    );
 
     toast(
-      "Could not send file"
+      "Could not send photo/video"
     );
 
   } finally {
@@ -550,13 +704,15 @@ $("file").onchange = async () => {
 
 
 /* =========================
-   MESSAGE BUBBLE
+   CREATE MESSAGE BUBBLE
 ========================= */
 
 function createBubble(type) {
 
   const element =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   element.className =
     "msg " + type;
@@ -573,7 +729,7 @@ function createBubble(type) {
 
 
 /* =========================
-   TEXT MESSAGE
+   ADD TEXT
 ========================= */
 
 function addText(
@@ -638,7 +794,7 @@ function addTime(
 
 
 /* =========================
-   FILE MESSAGE
+   ADD PHOTO / VIDEO
 ========================= */
 
 async function addFile(
@@ -655,6 +811,11 @@ async function addFile(
           : "theirs"
       );
 
+
+    /*
+     * Decrypt actual file
+     */
+
     const decrypted =
       await crypto.subtle.decrypt(
         {
@@ -665,6 +826,11 @@ async function addFile(
         ub64(packet.data)
       );
 
+
+    /*
+     * Create browser blob
+     */
+
     const blob =
       new Blob(
         [decrypted],
@@ -673,12 +839,15 @@ async function addFile(
         }
       );
 
+
     const url =
       URL.createObjectURL(
         blob
       );
 
+
     let media;
+
 
     if (
       packet.mime.startsWith(
@@ -692,7 +861,10 @@ async function addFile(
         );
 
       media.controls = true;
+
       media.playsInline = true;
+
+      media.preload = "metadata";
 
     } else {
 
@@ -702,15 +874,22 @@ async function addFile(
         );
     }
 
+
     media.src =
       url;
 
     media.className =
       "media";
 
+
     bubble.appendChild(
       media
     );
+
+
+    /*
+     * Download button
+     */
 
     const download =
       document.createElement(
@@ -729,20 +908,26 @@ async function addFile(
     download.textContent =
       "Download";
 
+
     bubble.appendChild(
       download
     );
+
 
     addTime(
       bubble
     );
 
+
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "FILE RECEIVE ERROR:",
+      error
+    );
 
     toast(
-      "Could not open media"
+      "Could not open photo/video"
     );
   }
 }
@@ -777,10 +962,16 @@ socket.on(
   "message",
   async (packet) => {
 
+    /*
+     * First decrypt the outer
+     * message.
+     */
+
     const message =
       await decryptObject(
         packet
       );
+
 
     if (!message) {
 
@@ -791,6 +982,11 @@ socket.on(
       return;
     }
 
+
+    /*
+     * TEXT
+     */
+
     if (
       message.type === "text"
     ) {
@@ -800,7 +996,15 @@ socket.on(
         false
       );
 
-    } else if (
+      return;
+    }
+
+
+    /*
+     * FILE
+     */
+
+    if (
       message.type === "file"
     ) {
 
@@ -808,6 +1012,8 @@ socket.on(
         message,
         false
       );
+
+      return;
     }
   }
 );
@@ -830,7 +1036,7 @@ socket.on(
 
 
 /* =========================
-   OTHER PERSON LEFT
+   PEER LEFT
 ========================= */
 
 socket.on(
@@ -855,7 +1061,9 @@ socket.on(
   () => {
 
     roomId = null;
+
     key = null;
+
     connected = false;
 
     $("msgs").innerHTML = "";
