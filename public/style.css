@@ -709,3 +709,133 @@ button:active {
   .msg .media {
     max-width: 160px;
     max-height: 
+/* ================================
+   HOME SCREEN ONLY
+   Chat screen ko touch nahi karega
+================================ */
+
+#home {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 28px 20px;
+  background: #0b1428;
+  color: #f7f7fb;
+}
+
+#home.hidden {
+  display: none;
+}
+
+#home .home-inner,
+#home > div {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* Main heading */
+#home h1 {
+  font-size: 34px;
+  line-height: 1.15;
+  margin: 35px 0 10px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+#home h1 span {
+  color: #9b6cff;
+}
+
+#home p {
+  color: #aeb8cc;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Create button */
+#create {
+  width: 100%;
+  border: 0;
+  border-radius: 16px;
+  padding: 17px 20px;
+  margin-top: 25px;
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(90deg, #7b4cff, #4d8cff);
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(80, 80, 255, .18);
+}
+
+#create:active {
+  transform: scale(.98);
+}
+
+/* OR text */
+#home .or,
+#home .divider {
+  text-align: center;
+  color: #78849a;
+  margin: 24px 0;
+  font-size: 15px;
+}
+
+/* Link / room code box */
+#code {
+  width: 100%;
+  box-sizing: border-box;
+  background: #101d34;
+  border: 1px solid #263653;
+  color: #fff;
+  border-radius: 15px;
+  padding: 16px;
+  font-size: 16px;
+  outline: none;
+}
+
+#code::placeholder {
+  color: #758198;
+}
+
+#code:focus {
+  border-color: #765cff;
+  box-shadow: 0 0 0 3px rgba(118,92,255,.12);
+}
+
+/* Open chat */
+#join {
+  width: 100%;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 15px;
+  padding: 16px;
+  background: #182944;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#join:active {
+  transform: scale(.98);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+  #home {
+    padding: 24px 18px;
+  }
+
+  #home h1 {
+    font-size: 32px;
+  }
+
+  #create,
+  #join {
+    padding: 16px;
+  }
+
+  #code {
+    padding: 15px;
+  }
+}
