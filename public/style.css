@@ -36,103 +36,167 @@ button {
 }
 
 
-/* =========================
-   HOME
-========================= */
+/* =========================================================
+   HOME SCREEN
+   Original clean centered design
+========================================================= */
 
 #home {
   width: 100%;
   height: 100vh;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 18px;
+
+  background: #f5f6f8;
 }
 
 .home-card {
   width: 100%;
   max-width: 430px;
+
   background: #fff;
+
   border-radius: 22px;
+
   padding: 25px 20px;
-  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 8px 35px rgba(0, 0, 0, 0.08);
 }
 
 .home-card h1 {
   text-align: center;
+
   font-size: 25px;
+
   margin-bottom: 8px;
+
+  color: #111;
 }
 
 .home-card p {
   text-align: center;
+
   color: #777;
+
   font-size: 13px;
+
+  line-height: 1.5;
+
   margin-bottom: 22px;
 }
 
 
 /* =========================
-   INPUT
+   HOME INPUT
 ========================= */
 
-input[type="text"],
-input[type="password"] {
+#home input[type="text"],
+#home input[type="password"] {
   width: 100%;
+
   height: 46px;
+
   border: 1px solid #ddd;
+
   border-radius: 13px;
+
   padding: 0 14px;
+
   outline: none;
+
   font-size: 14px;
+
   background: #fafafa;
+
+  color: #111;
 }
 
-input:focus {
+#home input:focus {
   border-color: #777;
+
   background: #fff;
+}
+
+#home input::placeholder {
+  color: #999;
 }
 
 
 /* =========================
-   BUTTONS
+   HOME BUTTONS
 ========================= */
 
-button {
+#home button {
   border: none;
+
   border-radius: 13px;
+
   min-height: 44px;
+
   padding: 0 16px;
+
   font-size: 14px;
+
   font-weight: 600;
 }
 
 #create {
   width: 100%;
+
   background: #111;
+
   color: #fff;
+
   margin-bottom: 10px;
 }
 
 #join {
   width: 100%;
+
   background: #e9e9e9;
+
   color: #111;
 }
 
-button:active {
+#home button:active {
   transform: scale(0.98);
 }
 
 
 /* =========================
+   HOME DIVIDER / OR
+========================= */
+
+#home .or,
+#home .divider {
+  width: 100%;
+
+  text-align: center;
+
+  color: #999;
+
+  font-size: 12px;
+
+  margin: 12px 0;
+}
+
+
+/* =========================
    CHAT PAGE
+   DON'T CHANGE
 ========================= */
 
 #chat {
   width: 100%;
   height: 100vh;
+
   background: #f5f6f8;
+
   display: flex;
   flex-direction: column;
 }
@@ -144,14 +208,21 @@ button:active {
 
 .chat-header {
   flex-shrink: 0;
+
   min-height: 62px;
+
   padding: 8px 12px;
+
   background: #fff;
+
   border-bottom: 1px solid #e8e8e8;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 8px;
 
   z-index: 10;
@@ -163,28 +234,39 @@ button:active {
 
 .chat-title h2 {
   font-size: 16px;
+
   font-weight: 700;
 }
 
 #state {
   margin-top: 3px;
+
   font-size: 11px;
+
   color: #777;
 }
 
 #typing {
   min-height: 15px;
+
   font-size: 11px;
+
   color: #777;
+
   font-style: italic;
 }
 
 #end {
   min-height: 36px;
+
   padding: 0 11px;
+
   background: #f0f0f0;
+
   color: #d00;
+
   font-size: 11px;
+
   border-radius: 10px;
 }
 
@@ -195,27 +277,41 @@ button:active {
 
 #invite {
   flex-shrink: 0;
+
   background: #fff;
+
   padding: 8px 10px;
+
   border-bottom: 1px solid #e9e9e9;
 }
 
 #inviteText {
   display: block;
+
   font-size: 11px;
+
   color: #555;
+
   overflow: hidden;
+
   white-space: nowrap;
+
   text-overflow: ellipsis;
+
   margin-bottom: 6px;
 }
 
 #copy {
   min-height: 32px;
+
   background: #111;
+
   color: #fff;
+
   font-size: 11px;
+
   border-radius: 9px;
+
   padding: 0 12px;
 }
 
@@ -226,14 +322,19 @@ button:active {
 
 #msgs {
   flex: 1;
+
   min-height: 0;
+
   overflow-y: auto;
+
   overflow-x: hidden;
 
   padding: 10px 5px 12px;
 
   display: flex;
+
   flex-direction: column;
+
   align-items: stretch;
 
   scroll-behavior: smooth;
@@ -241,57 +342,68 @@ button:active {
 
 
 /* =========================
-   MESSAGE BUBBLE
-   SMALL / SNAPCHAT STYLE
+   SMALL SNAPCHAT STYLE
 ========================= */
 
 .msg {
   display: block;
 
   width: fit-content;
+
   max-width: 72%;
 
   padding: 6px 10px;
 
   margin-top: 3px;
+
   margin-bottom: 3px;
 
   border-radius: 16px;
 
   font-size: 14px;
+
   line-height: 1.35;
 
   word-break: break-word;
+
   overflow-wrap: anywhere;
 
   box-sizing: border-box;
 }
 
 
-/* MY MESSAGE */
+/* =========================
+   MY MESSAGE
+========================= */
 
 .msg.mine {
   align-self: flex-end;
 
   margin-left: auto;
+
   margin-right: 8px;
 
   background: #111;
+
   color: #fff;
 
   border-bottom-right-radius: 5px;
 }
 
 
-/* OTHER PERSON MESSAGE */
+/* =========================
+   OTHER MESSAGE
+========================= */
 
 .msg.theirs {
   align-self: flex-start;
 
   margin-left: 8px;
+
   margin-right: auto;
 
   background: #fff;
+
   color: #111;
 
   border: 1px solid #e7e7e7;
@@ -346,9 +458,11 @@ button:active {
   display: block;
 
   max-width: 190px;
+
   max-height: 230px;
 
   width: auto;
+
   height: auto;
 
   object-fit: cover;
@@ -365,7 +479,9 @@ button:active {
 
 .msg video.media {
   width: 190px;
+
   max-width: 100%;
+
   max-height: 230px;
 
   object-fit: contain;
@@ -404,7 +520,7 @@ button:active {
 
 
 /* =========================
-   CHAT INPUT AREA
+   CHAT INPUT
 ========================= */
 
 .chat-input {
@@ -429,7 +545,9 @@ button:active {
 }
 
 
-/* FORM */
+/* =========================
+   FORM
+========================= */
 
 #form {
   flex: 1;
@@ -444,7 +562,9 @@ button:active {
 }
 
 
-/* TEXT BOX */
+/* =========================
+   TEXT BOX
+========================= */
 
 #text {
   flex: 1;
@@ -473,10 +593,13 @@ button:active {
 }
 
 
-/* SEND */
+/* =========================
+   SEND
+========================= */
 
 #send {
   width: 40px;
+
   height: 40px;
 
   min-height: 40px;
@@ -499,6 +622,7 @@ button:active {
 
 .file-button {
   width: 40px;
+
   height: 40px;
 
   border-radius: 50%;
@@ -553,8 +677,7 @@ button:active {
   text-align: center;
 
   box-shadow:
-    0 5px 20px
-    rgba(0, 0, 0, 0.2);
+    0 5px 20px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -592,8 +715,7 @@ button:active {
   padding: 22px 18px;
 
   box-shadow:
-    0 15px 50px
-    rgba(0, 0, 0, 0.2);
+    0 15px 50px rgba(0, 0, 0, 0.2);
 }
 
 #modalTitle {
@@ -648,12 +770,50 @@ button:active {
 
 @media (max-width: 600px) {
 
+  #home {
+    padding: 18px;
+  }
+
+  .home-card {
+    max-width: 430px;
+
+    padding: 24px 18px;
+
+    border-radius: 20px;
+  }
+
+  .home-card h1 {
+    font-size: 24px;
+  }
+
+  .home-card p {
+    font-size: 13px;
+  }
+
+  #create,
+  #join {
+    min-height: 44px;
+
+    font-size: 14px;
+  }
+
+  #home input[type="text"],
+  #home input[type="password"] {
+    height: 46px;
+
+    font-size: 14px;
+  }
+
+
+  /* CHAT */
+
   .msg {
     max-width: 72%;
 
     padding: 6px 9px;
 
     margin-top: 2px;
+
     margin-bottom: 2px;
 
     font-size: 14px;
@@ -661,31 +821,29 @@ button:active {
     border-radius: 15px;
   }
 
-
   .msg .media {
     max-width: 180px;
+
     max-height: 220px;
   }
-
 
   .msg video.media {
     width: 180px;
+
     max-height: 220px;
   }
-
 
   .msg .time {
     font-size: 8px;
   }
 
-
   .msg .seen-status {
     font-size: 8px;
   }
 
-
   #msgs {
     padding-left: 3px;
+
     padding-right: 3px;
   }
 }
@@ -697,6 +855,18 @@ button:active {
 
 @media (max-width: 360px) {
 
+  .home-card {
+    padding: 21px 15px;
+  }
+
+  .home-card h1 {
+    font-size: 22px;
+  }
+
+  .home-card p {
+    font-size: 12px;
+  }
+
   .msg {
     max-width: 78%;
 
@@ -705,137 +875,15 @@ button:active {
     padding: 5px 8px;
   }
 
-
   .msg .media {
     max-width: 160px;
-    max-height: 
-/* ================================
-   HOME SCREEN ONLY
-   Chat screen ko touch nahi karega
-================================ */
 
-#home {
-  min-height: 100vh;
-  box-sizing: border-box;
-  padding: 28px 20px;
-  background: #0b1428;
-  color: #f7f7fb;
-}
-
-#home.hidden {
-  display: none;
-}
-
-#home .home-inner,
-#home > div {
-  max-width: 620px;
-  margin: 0 auto;
-}
-
-/* Main heading */
-#home h1 {
-  font-size: 34px;
-  line-height: 1.15;
-  margin: 35px 0 10px;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-#home h1 span {
-  color: #9b6cff;
-}
-
-#home p {
-  color: #aeb8cc;
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-/* Create button */
-#create {
-  width: 100%;
-  border: 0;
-  border-radius: 16px;
-  padding: 17px 20px;
-  margin-top: 25px;
-  font-size: 17px;
-  font-weight: 700;
-  color: white;
-  background: linear-gradient(90deg, #7b4cff, #4d8cff);
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(80, 80, 255, .18);
-}
-
-#create:active {
-  transform: scale(.98);
-}
-
-/* OR text */
-#home .or,
-#home .divider {
-  text-align: center;
-  color: #78849a;
-  margin: 24px 0;
-  font-size: 15px;
-}
-
-/* Link / room code box */
-#code {
-  width: 100%;
-  box-sizing: border-box;
-  background: #101d34;
-  border: 1px solid #263653;
-  color: #fff;
-  border-radius: 15px;
-  padding: 16px;
-  font-size: 16px;
-  outline: none;
-}
-
-#code::placeholder {
-  color: #758198;
-}
-
-#code:focus {
-  border-color: #765cff;
-  box-shadow: 0 0 0 3px rgba(118,92,255,.12);
-}
-
-/* Open chat */
-#join {
-  width: 100%;
-  margin-top: 12px;
-  border: 0;
-  border-radius: 15px;
-  padding: 16px;
-  background: #182944;
-  color: white;
-  font-size: 17px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-#join:active {
-  transform: scale(.98);
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-
-  #home {
-    padding: 24px 18px;
+    max-height: 200px;
   }
 
-  #home h1 {
-    font-size: 32px;
-  }
+  .msg video.media {
+    width: 160px;
 
-  #create,
-  #join {
-    padding: 16px;
-  }
-
-  #code {
-    padding: 15px;
+    max-height: 200px;
   }
 }
