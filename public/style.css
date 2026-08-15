@@ -17,11 +17,6 @@ body {
   overflow: hidden;
 }
 
-
-/* =========================
-   COMMON
-========================= */
-
 button,
 input {
   font-family: inherit;
@@ -36,25 +31,88 @@ button {
 }
 
 
-/* =========================================================
+/* ==================================================
    HOME SCREEN
-   Original clean centered design
-========================================================= */
+================================================== */
 
 #home {
   width: 100%;
   height: 100vh;
 
   display: flex;
+  flex-direction: column;
+
   align-items: center;
   justify-content: center;
 
-  padding: 18px;
+  padding: 20px;
 
   background: #f5f6f8;
+
+  overflow-y: auto;
 }
 
-.home-card {
+
+/* Home ke saare direct elements ko proper width */
+
+#home > * {
+  width: 100%;
+  max-width: 430px;
+}
+
+
+/* Heading */
+
+#home h1 {
+  width: 100%;
+  max-width: 430px;
+
+  text-align: center;
+
+  font-size: 25px;
+
+  font-weight: 700;
+
+  color: #111;
+
+  margin: 0 0 8px 0;
+}
+
+
+/* Paragraph */
+
+#home p {
+  width: 100%;
+  max-width: 430px;
+
+  text-align: center;
+
+  color: #777;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  margin: 0 0 22px 0;
+}
+
+
+/* Agar home-inner ho */
+
+#home .home-inner {
+  width: 100%;
+  max-width: 430px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+
+/* Home card agar HTML mein hai */
+
+#home .home-card {
   width: 100%;
   max-width: 430px;
 
@@ -68,36 +126,15 @@ button {
     0 8px 35px rgba(0, 0, 0, 0.08);
 }
 
-.home-card h1 {
-  text-align: center;
 
-  font-size: 25px;
-
-  margin-bottom: 8px;
-
-  color: #111;
-}
-
-.home-card p {
-  text-align: center;
-
-  color: #777;
-
-  font-size: 13px;
-
-  line-height: 1.5;
-
-  margin-bottom: 22px;
-}
-
-
-/* =========================
+/* ==================================================
    HOME INPUT
-========================= */
+================================================== */
 
 #home input[type="text"],
 #home input[type="password"] {
   width: 100%;
+  max-width: 430px;
 
   height: 46px;
 
@@ -114,9 +151,12 @@ button {
   background: #fafafa;
 
   color: #111;
+
+  margin-bottom: 10px;
 }
 
-#home input:focus {
+#home input[type="text"]:focus,
+#home input[type="password"]:focus {
   border-color: #777;
 
   background: #fff;
@@ -127,54 +167,42 @@ button {
 }
 
 
-/* =========================
-   HOME BUTTONS
-========================= */
+/* ==================================================
+   CREATE BUTTON
+================================================== */
 
-#home button {
+#home #create {
+  width: 100%;
+  max-width: 430px;
+
+  min-height: 44px;
+
   border: none;
 
   border-radius: 13px;
 
-  min-height: 44px;
-
   padding: 0 16px;
-
-  font-size: 14px;
-
-  font-weight: 600;
-}
-
-#create {
-  width: 100%;
 
   background: #111;
 
   color: #fff;
 
+  font-size: 14px;
+
+  font-weight: 600;
+
   margin-bottom: 10px;
 }
 
-#join {
-  width: 100%;
 
-  background: #e9e9e9;
-
-  color: #111;
-}
-
-#home button:active {
-  transform: scale(0.98);
-}
-
-
-/* =========================
-   HOME DIVIDER / OR
-========================= */
+/* ==================================================
+   OR
+================================================== */
 
 #home .or,
 #home .divider {
   width: 100%;
+  max-width: 430px;
 
   text-align: center;
 
@@ -182,14 +210,86 @@ button {
 
   font-size: 12px;
 
-  margin: 12px 0;
+  margin: 10px 0 10px;
 }
 
 
-/* =========================
+/* ==================================================
+   ROOM CODE
+================================================== */
+
+#home #code {
+  width: 100%;
+  max-width: 430px;
+
+  height: 46px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 13px;
+
+  padding: 0 14px;
+
+  outline: none;
+
+  font-size: 14px;
+
+  background: #fafafa;
+
+  color: #111;
+
+  margin-bottom: 10px;
+}
+
+#home #code:focus {
+  border-color: #777;
+
+  background: #fff;
+}
+
+#home #code::placeholder {
+  color: #999;
+}
+
+
+/* ==================================================
+   JOIN BUTTON
+================================================== */
+
+#home #join {
+  width: 100%;
+  max-width: 430px;
+
+  min-height: 44px;
+
+  border: none;
+
+  border-radius: 13px;
+
+  padding: 0 16px;
+
+  background: #e9e9e9;
+
+  color: #111;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* ==================================================
+   HOME BUTTON PRESS
+================================================== */
+
+#home button:active {
+  transform: scale(0.98);
+}
+
+
+/* ==================================================
    CHAT PAGE
-   DON'T CHANGE
-========================= */
+================================================== */
 
 #chat {
   width: 100%;
@@ -198,13 +298,14 @@ button {
   background: #f5f6f8;
 
   display: flex;
+
   flex-direction: column;
 }
 
 
-/* =========================
+/* ==================================================
    CHAT HEADER
-========================= */
+================================================== */
 
 .chat-header {
   flex-shrink: 0;
@@ -271,9 +372,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    INVITE
-========================= */
+================================================== */
 
 #invite {
   flex-shrink: 0;
@@ -316,9 +417,9 @@ button {
 }
 
 
-/* =========================
-   MESSAGES AREA
-========================= */
+/* ==================================================
+   MESSAGES
+================================================== */
 
 #msgs {
   flex: 1;
@@ -341,9 +442,9 @@ button {
 }
 
 
-/* =========================
-   SMALL SNAPCHAT STYLE
-========================= */
+/* ==================================================
+   MESSAGE BUBBLE
+================================================== */
 
 .msg {
   display: block;
@@ -372,9 +473,7 @@ button {
 }
 
 
-/* =========================
-   MY MESSAGE
-========================= */
+/* MY MESSAGE */
 
 .msg.mine {
   align-self: flex-end;
@@ -391,9 +490,7 @@ button {
 }
 
 
-/* =========================
-   OTHER MESSAGE
-========================= */
+/* OTHER MESSAGE */
 
 .msg.theirs {
   align-self: flex-start;
@@ -412,9 +509,9 @@ button {
 }
 
 
-/* =========================
-   MESSAGE TIME
-========================= */
+/* ==================================================
+   TIME
+================================================== */
 
 .msg .time {
   display: inline-block;
@@ -431,9 +528,9 @@ button {
 }
 
 
-/* =========================
-   SEEN STATUS
-========================= */
+/* ==================================================
+   SEEN
+================================================== */
 
 .msg .seen-status {
   display: block;
@@ -450,9 +547,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    PHOTO
-========================= */
+================================================== */
 
 .msg .media {
   display: block;
@@ -473,9 +570,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    VIDEO
-========================= */
+================================================== */
 
 .msg video.media {
   width: 190px;
@@ -492,9 +589,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    DOWNLOAD
-========================= */
+================================================== */
 
 .msg .download {
   display: inline-block;
@@ -519,9 +616,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    CHAT INPUT
-========================= */
+================================================== */
 
 .chat-input {
   flex-shrink: 0;
@@ -545,9 +642,7 @@ button {
 }
 
 
-/* =========================
-   FORM
-========================= */
+/* FORM */
 
 #form {
   flex: 1;
@@ -562,9 +657,7 @@ button {
 }
 
 
-/* =========================
-   TEXT BOX
-========================= */
+/* TEXT */
 
 #text {
   flex: 1;
@@ -593,9 +686,7 @@ button {
 }
 
 
-/* =========================
-   SEND
-========================= */
+/* SEND */
 
 #send {
   width: 40px;
@@ -616,9 +707,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    FILE BUTTON
-========================= */
+================================================== */
 
 .file-button {
   width: 40px;
@@ -645,9 +736,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    TOAST
-========================= */
+================================================== */
 
 #toast {
   position: fixed;
@@ -681,9 +772,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    PASSWORD MODAL
-========================= */
+================================================== */
 
 #modal {
   position: fixed;
@@ -745,9 +836,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    SCROLLBAR
-========================= */
+================================================== */
 
 #msgs::-webkit-scrollbar {
   width: 4px;
@@ -764,9 +855,9 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    MOBILE
-========================= */
+================================================== */
 
 @media (max-width: 600px) {
 
@@ -774,38 +865,31 @@ button {
     padding: 18px;
   }
 
-  .home-card {
+  #home > * {
     max-width: 430px;
-
-    padding: 24px 18px;
-
-    border-radius: 20px;
   }
 
-  .home-card h1 {
+  #home h1 {
     font-size: 24px;
   }
 
-  .home-card p {
+  #home p {
     font-size: 13px;
   }
 
-  #create,
-  #join {
+  #home #create,
+  #home #join {
     min-height: 44px;
 
     font-size: 14px;
   }
 
-  #home input[type="text"],
-  #home input[type="password"] {
+  #home #code {
     height: 46px;
 
     font-size: 14px;
   }
 
-
-  /* CHAT */
 
   .msg {
     max-width: 72%;
@@ -849,21 +933,21 @@ button {
 }
 
 
-/* =========================
+/* ==================================================
    VERY SMALL PHONES
-========================= */
+================================================== */
 
 @media (max-width: 360px) {
 
-  .home-card {
-    padding: 21px 15px;
+  #home {
+    padding: 15px;
   }
 
-  .home-card h1 {
+  #home h1 {
     font-size: 22px;
   }
 
-  .home-card p {
+  #home p {
     font-size: 12px;
   }
 
